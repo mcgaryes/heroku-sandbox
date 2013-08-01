@@ -31,10 +31,10 @@ app.configure(function() {
 	app.set('port', process.env.PORT || 8889);
 	app.set('view engine', 'ejs');
 	app.use(express.static(path.join(__dirname, 'static')));
-	app.use(express.bodyParser({
-		keepExtensions: true,
-		uploadDir: 'uploads'
-	}));
+	// app.use(express.bodyParser({
+	// 	keepExtensions: true,
+	// 	uploadDir: 'uploads'
+	// }));
 });
 
 // ============================================================
