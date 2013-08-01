@@ -51,6 +51,13 @@ app.get('/upload', function(req, res) {
 });
 
 app.post('/upload', function(req, res, next) {
+	res.json(201, result);
+	res.send(format('\nuploaded %s (%d Kb) to %s as %s'
+    , req.files.file.name
+    , req.files.file.size / 1024 | 0 
+    , req.files.file.path
+    , req.body.title));
+	/*
 	if (req.files) {
 		var file = req.files.file;
 		if (!_.isUndefined(file)) {
@@ -67,6 +74,7 @@ app.post('/upload', function(req, res, next) {
 	res.json(500, {
 		error: "image upload fault"
 	});
+	*/
 });
 
 // ============================================================
