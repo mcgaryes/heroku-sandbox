@@ -32,17 +32,12 @@ app.configure(function() {
 	app.set('view engine', 'ejs');
 	app.use(express.static(path.join(__dirname, 'static')));
 	app.use(express.bodyParser());
-	// app.use(express.bodyParser({
-	// 	keepExtensions: true,
-	// 	uploadDir: 'uploads'
-	// }));
 });
 
 // ============================================================
 // === Express Routing ========================================
 // ============================================================
 
-// routes
 app.get('/', function(req, res) {
 	res.render("index.ejs");
 });
@@ -58,24 +53,6 @@ app.post('/upload', function(req, res, next) {
 	fs.createReadStream(req.files.file.path, {
 		encoding: 'binary'
 	}).on('data', stream.write).on('end', stream.end);
-	/*
-	if (req.files) {
-		var file = req.files.file;
-		if (!_.isUndefined(file)) {
-			var path = file.path;
-			cloudinary.uploader.upload(path, function(result) {
-				res.json(201, result);
-				fs.unlink(path);
-			});
-			return;
-		}
-	}
-
-	// if all else fails, send error
-	res.json(500, {
-		error: "image upload fault"
-	});
-	*/
 });
 
 // ============================================================
@@ -83,5 +60,5 @@ app.post('/upload', function(req, res, next) {
 // ============================================================
 
 http.createServer(app).listen(app.get('port'), function() {
-	console.log("Express server listening on port " + app.get('port'));
+	console.log("The 'Heroku Sandbox' is running on port " + app.get('port'));
 });

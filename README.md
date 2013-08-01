@@ -1,4 +1,3 @@
-heroku-sandbox
-==============
+# Heroku Sandbox
 
-heroku-sandbox
+1. Cloudinary Image Upload Implementation
