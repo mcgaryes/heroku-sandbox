@@ -31,6 +31,7 @@ app.configure(function() {
 	app.set('port', process.env.PORT || 8889);
 	app.set('view engine', 'ejs');
 	app.use(express.static(path.join(__dirname, 'static')));
+	app.use(express.bodyParser());
 	// app.use(express.bodyParser({
 	// 	keepExtensions: true,
 	// 	uploadDir: 'uploads'
@@ -54,7 +55,7 @@ app.post('/upload', function(req, res, next) {
 	stream = cloudinary.uploader.upload_stream(function(result) {
 		res.json(201, result);
 	}, { public_id: req.body.title });
-	fs.createReadStream(req.files.image.path, {
+	fs.createReadStream(req.files.file.path, {
 		encoding: 'binary'
 	}).on('data', stream.write).on('end', stream.end);
 	/*
