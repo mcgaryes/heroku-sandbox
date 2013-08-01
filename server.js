@@ -3,32 +3,76 @@ var fs = require('fs');
 var express = require('express');
 var http = require('http');
 var path = require('path');
+var cloudinary = require('cloudinary');
+var _ = require("underscore");
+var format = require('util').format
 
-// create express app
+// ============================================================
+// === Cloudinary Functionality ===============================
+// ============================================================
+
+cloudinary.config({
+	cloud_name: 'hryxjwdpj',
+	api_key: '119832957377347',
+	api_secret: 'GIwU-MaqKzeBrAV87RWsXnky3bo'
+});
+
+// ============================================================
+// === Express Configuration ==================================
+// ============================================================
+
 var app = express();
 
-// configuration
+app.configure('development', function() {
+	app.use(express.logger('dev'));
+});
+
 app.configure(function() {
 	app.set('port', process.env.PORT || 8889);
 	app.set('view engine', 'ejs');
-	app.use(express.favicon());
-	app.use(app.router);
-	app.use(express.methodOverride());
-	app.use(express.bodyParser());
-	app.use(express.logger('dev'));
 	app.use(express.static(path.join(__dirname, 'static')));
+	app.use(express.bodyParser({
+		keepExtensions: true,
+		uploadDir: 'uploads'
+	}));
 });
 
-app.configure('development', function() {
-	app.use(express.errorHandler());
-});
+// ============================================================
+// === Express Routing ========================================
+// ============================================================
 
 // routes
 app.get('/', function(req, res) {
 	res.render("index.ejs");
 });
 
-// start
+app.get('/upload', function(req, res) {
+	res.render("upload.ejs");
+});
+
+app.post('/upload', function(req, res, next) {
+	if (req.files) {
+		var file = req.files.file;
+		if (!_.isUndefined(file)) {
+			var path = file.path;
+			cloudinary.uploader.upload(path, function(result) {
+				res.json(201, result);
+				fs.unlink(path);
+			});
+			return;
+		}
+	}
+
+	// if all else fails, send error
+	res.json(500, {
+		error: "image upload fault"
+	});
+});
+
+// ============================================================
+// === HTTP Server Creation ===================================
+// ============================================================
+
 http.createServer(app).listen(app.get('port'), function() {
 	console.log("Express server listening on port " + app.get('port'));
 });

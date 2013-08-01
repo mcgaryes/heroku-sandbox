@@ -1,14 +1,16 @@
 {
-	"name": "heroku-sandbox",
-	"description": "heroku-sandbox",
-	"version": "1.0.0",
-	"private": true,
-	"dependencies": {
-		"express": "3.x",
-		"ejs":"0.8.x"
-	},
-	"engines": {
-		"node": "0.8.x",
-		"npm": "1.1.x"
-	}
-} 
+  "name": "heroku-sandbox",
+  "description": "heroku-sandbox",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "express": "~3.3.4",
+    "ejs": "0.8.x",
+    "cloudinary": "~1.0.3",
+    "underscore": "~1.5.1"
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  }
+}
